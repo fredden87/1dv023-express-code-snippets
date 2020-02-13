@@ -1,5 +1,5 @@
 /**
- * Home controller.
+ * Snippets controller.
  *
  * @author Fredrik Norrman
  * @version 1.0.0
@@ -9,7 +9,7 @@
 
 // const moment = require('moment')
 
-const homeController = {}
+const snippetsController = {}
 
 /**
  * Renders the start page.
@@ -18,9 +18,9 @@ const homeController = {}
  * @param {object} res - Express response object.
  */
 
-const viewData = 'Home'
-homeController.index = (req, res) => {
+const viewData = 'Snippets'
+snippetsController.index = (req, res) => {
   res.render('home/index', { viewData })
 }
 
-module.exports = homeController
+module.exports = snippetsController

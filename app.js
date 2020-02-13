@@ -29,6 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // routes
 app.use('/', require('./routes/homeRouter'))
+app.use('/snippets', require('./routes/snippetsRouter'))
 
 // error handler
 app.use((err, req, res, next) => {
