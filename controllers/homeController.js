@@ -17,8 +17,10 @@ const homeController = {}
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
+
+const viewData = 'hej'
 homeController.index = (req, res) => {
-  res.render('home/index')
+  res.render('home/index', { viewData })
 }
 
 /**
