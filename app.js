@@ -16,7 +16,8 @@ const app = express()
 
 // view engine setup
 app.engine('hbs', hbs.express4({
-  defaultLayout: path.join(__dirname, 'views', 'layouts', 'default')
+  defaultLayout: path.join(__dirname, 'views', 'layouts', 'default'),
+  partialsDir: path.join(__dirname, 'views', 'partials')
 }))
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'views'))
