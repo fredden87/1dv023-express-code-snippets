@@ -1,3 +1,30 @@
-h1 {
-    color: black;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+h1 {
+    color: green;
+}
+
+.nav-ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 10px;
+    background-color: #333;
+  }
+
+.nav-li {
+    display: inline;
+  }
+
+.nav-li a {
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.nav-li a:hover {
+    background-color: #111;
+  }
