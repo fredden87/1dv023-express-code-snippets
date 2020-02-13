@@ -12,7 +12,7 @@
 const loginController = {}
 
 /**
- * Renders the start page.
+ * Renders the login page.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.

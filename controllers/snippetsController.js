@@ -12,7 +12,7 @@
 const snippetsController = {}
 
 /**
- * Renders the start page.
+ * Renders the snippets page.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
