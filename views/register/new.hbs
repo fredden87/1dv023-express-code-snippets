@@ -1,8 +1,12 @@
-<div class="center"><h2>HTML Forms</h2></div>
-<form  class="center" method="post" action="/register/newuser"
+<div class="center"><h2 class="no-margin">Registration</h2>
+<p>Please fill in the form to register an account!</p>
+<form method="post" action="/register/newuser"
   <label for="username">Username:</label><br>
-  <input type="text" id="username" name="username" value=""><br>
-  <label for="password">Password:</label><br>
-  <input type="text" id="password" name="password" value=""><br><br>
+  <input type="text" name="username" value=""><br><br>
+  <label for="password1">Password:</label><br>
+  <input type="text" name="password1" value=""><br>
+  <label for="password1">Retype password:</label><br>
+  <input type="text" name="password2" value=""><br><br>
   <input type="submit" value="Submit">
 </form>
+</div>
