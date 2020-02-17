@@ -20,7 +20,17 @@ const registerController = {}
 
 const viewData = 'Register'
 registerController.index = (req, res) => {
-  res.render('home/index', { viewData })
+  res.render('register/new', { viewData })
+}
+
+/**
+ * Handels post made to /newuser to register a new user.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+registerController.newUser = (req, res) => {
+  console.log(req.body)
 }
 
 module.exports = registerController
