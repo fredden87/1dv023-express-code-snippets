@@ -7,12 +7,21 @@
 
 'use strict'
 
+require('dotenv').config()
+
 const express = require('express')
 const hbs = require('express-hbs')
 const path = require('path')
 const logger = require('morgan')
+const mongoose = require('./configs/mongoose')
 
 const app = express()
+
+// connect to the database
+mongoose.connect().catch(error => {
+  console.error(error)
+  process.exit(1)
+})
 
 // view engine setup
 app.engine('hbs', hbs.express4({
