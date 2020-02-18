@@ -20,7 +20,7 @@ const registerController = {}
 
 const viewData = 'Register'
 registerController.index = (req, res) => {
-  res.render('register/new', { viewData })
+  res.render('register/index', { viewData })
 }
 
 /**
