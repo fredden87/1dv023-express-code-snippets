@@ -101,6 +101,12 @@ html, body {
     text-decoration: none;
 }
 
+.logged-in{
+    color: white;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
 .nav-li a:hover {
     background-color: #111;
   }

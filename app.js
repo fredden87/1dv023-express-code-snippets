@@ -56,12 +56,18 @@ app.use((req, res, next) => {
   }
   next()
 })
+app.use((req, res, next) => {
+  app.locals.expreq = req.session.userName
+  console.log(app.locals.expreq)
+  next()
+})
 
 // routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/snippets', require('./routes/snippetsRouter'))
 app.use('/login', require('./routes/loginRouter'))
 app.use('/register', require('./routes/registerRouter'))
+app.use('/logout', require('./routes/logoutRouter'))
 app.use('*', (req, res, next) => next(createError(404)))
 
 // Error handler.
