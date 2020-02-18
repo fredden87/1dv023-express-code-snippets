@@ -30,22 +30,26 @@ registerController.index = (req, res) => {
  * @param {object} res - Express response object.
  */
 registerController.newUser = async (req, res) => {
-  if (req.body.username && req.body.password1 === req.body.password2) {
+  if (req.body.username > 0 && req.body.password1 === req.body.password2) {
     try {
       const user = new User({
         username: req.body.username,
         password: req.body.password1
       })
       await user.save()
+      req.session.flash = { type: 'success', text: 'New account created successfully. Please login!' }
       res.redirect('../login')
-      console.log('User created!')
     } catch (error) {
+      req.session.flash = { type: 'danger', text: 'Something went wrong. Please try again!' }
       res.redirect('.')
-      console.log(error)
     }
-  } else {
+  }
+  if (req.body.username > 0 && req.body.password1 !== req.body.password2) {
+    req.session.flash = { type: 'danger', text: "Passwords don't match. Please try again!" }
     res.redirect('.')
-    console.log('Validation error!')
+  } else {
+    req.session.flash = { type: 'danger', text: 'Something went wrong. Please try again!' }
+    res.redirect('.')
   }
 }
 

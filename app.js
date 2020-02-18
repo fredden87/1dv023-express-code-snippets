@@ -51,6 +51,17 @@ const sessionOptions = {
 // Use express-session as middleware
 app.use(session(sessionOptions))
 
+// middleware to be executed before the routes
+app.use((req, res, next) => {
+  // flash messages - survives only 1 round trip
+  if (req.session.flash) {
+    res.locals.flash = req.session.flash
+    delete req.session.flash
+  }
+
+  next()
+})
+
 // routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/snippets', require('./routes/snippetsRouter'))

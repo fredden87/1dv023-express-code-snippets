@@ -1,1 +1,5 @@
-<div class="alert"></div>
+{{#if flash }}
+<div class="alert alert-{{flash.type}} center-text">
+  {{flash.text}}
+</div>
+{{/if}}
