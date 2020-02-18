@@ -34,9 +34,9 @@ loginController.auth = async (req, res) => {
     const user = await User.authenticate(req.body.username, req.body.password)
     req.session.regenerate(() => {
       req.session.userName = user.username
+      req.session.flash = { type: 'success', text: 'Successfully logged in.' }
+      res.redirect('..')
     })
-    req.session.flash = { type: 'success', text: 'Successfully logged in.' }
-    res.redirect('..')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
     res.redirect('.')
