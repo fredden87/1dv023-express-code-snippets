@@ -18,13 +18,21 @@ html, body {
   text-align: center;
 }
 
-.no-margin {
+.small-margin {
+  margin: 5px;
+}
+
+.small-bottom-margin {
   margin: 0;
+  margin-bottom: 10px;
 }
 
 .alert {
+  margin: 10px auto 0;
   padding: 20px;
+  border-radius: 10px;
   color: white;
+  width: 30%;
 }
 
 .alert-danger {

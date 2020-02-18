@@ -30,7 +30,7 @@ registerController.index = (req, res) => {
  * @param {object} res - Express response object.
  */
 registerController.newUser = async (req, res) => {
-  if (req.body.username > 0 && req.body.password1 === req.body.password2) {
+  if (req.body.username.length > 0 && req.body.password1 === req.body.password2) {
     try {
       const user = new User({
         username: req.body.username,
@@ -44,8 +44,8 @@ registerController.newUser = async (req, res) => {
       res.redirect('.')
     }
   }
-  if (req.body.username > 0 && req.body.password1 !== req.body.password2) {
-    req.session.flash = { type: 'danger', text: "Passwords don't match. Please try again!" }
+  if (req.body.username.length > 0 && req.body.password1 !== req.body.password2) {
+    req.session.flash = { type: 'danger', text: "Password don't match. Please try again!" }
     res.redirect('.')
   } else {
     req.session.flash = { type: 'danger', text: 'Something went wrong. Please try again!' }
