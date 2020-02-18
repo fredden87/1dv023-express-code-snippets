@@ -77,7 +77,7 @@ snippetsController.create = async (req, res) => {
 }
 
 /**
- * Renders the snippets index page.
+ * Returns a HTML form for editing a code snippet.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.

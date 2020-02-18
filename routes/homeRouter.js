@@ -12,7 +12,8 @@ const router = express.Router()
 
 const controller = require('../controllers/homeController')
 
-// GET
+// Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
 
+// Exports.
 module.exports = router

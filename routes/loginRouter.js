@@ -16,4 +16,5 @@ const controller = require('../controllers/loginController')
 router.get('/', controller.index)
 router.post('/', controller.auth)
 
+// Exports.
 module.exports = router

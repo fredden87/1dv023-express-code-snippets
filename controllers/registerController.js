@@ -7,7 +7,6 @@
 
 'use strict'
 
-// const moment = require('moment')
 const User = require('../models/User')
 const registerController = {}
 
