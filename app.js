@@ -11,6 +11,7 @@ require('dotenv').config()
 
 const express = require('express')
 const hbs = require('express-hbs')
+const session = require('express-session')
 const path = require('path')
 const logger = require('morgan')
 const mongoose = require('./configs/mongoose')
@@ -35,6 +36,20 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(logger('dev'))
 app.use(express.urlencoded({ extended: false }))
 app.use(express.static(path.join(__dirname, 'public')))
+
+// Config object for express-session
+const sessionOptions = {
+  name: process.env.session_name,
+  secret: process.env.session_secret,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24
+  }
+}
+
+// Use express-session as middleware
+app.use(session(sessionOptions))
 
 // routes
 app.use('/', require('./routes/homeRouter'))
