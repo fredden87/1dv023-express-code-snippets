@@ -3,19 +3,21 @@
 {{#if viewData.snippets.length }}
 {{#each viewData.snippets}}
 <div class="input-bg">
-  <textarea name="snippet" rows="20" cols="60">{{this.snippet}}</textarea>
+    <div id="created-at">Created: {{this.createdAt}}</div>
+  <textarea name="snippet" rows="20" cols="60" readonly>{{this.snippet}}</textarea>
   <br><br>
-  <input class="button" type="submit" value="Edit">
+  <a href="/snippets/{{this.id}}/edit" class="wannabe-button">Edit</a>
+  <a href="/snippets/{{this.id}}/delete" class="wannabe-button">Delete</a>
 </form>
 </div>
 <br>
 {{/each}}
 {{else}}
 <div class="input-bg">
-<form method="post" action="/snippets/create">
-  <textarea name="message" rows="20" cols="60">There are no code snippets to display</textarea>
+  <textarea name="snippet" rows="20" cols="60" readonly>There are no code snippets to display</textarea>
   <br><br>
-  <input class="button" type="submit" value="Edit">
+  <a href="#" class="wannabe-button">Edit</a>
+  <a href="#" class="wannabe-button">Delete</a>
 </form>
 </div>
 {{/if}}

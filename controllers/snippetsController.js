@@ -7,8 +7,7 @@
 
 'use strict'
 
-// const moment = require('moment')
-
+const moment = require('moment')
 const Snippet = require('../models/snippet')
 const snippetsController = {}
 
@@ -27,8 +26,8 @@ snippetsController.index = async (req, res) => {
           id: snippet._id,
           user: snippet.username,
           snippet: snippet.snippet,
-          createdAt: snippet.createdAt,
-          updatedAt: snippet.updatedAt
+          createdAt: moment(snippet.createdAt).format('YY-MM-DD HH:mm'),
+          updatedAt: moment(snippet.updatedAt).format('YY-MM-DD HH:mm')
         }))
     }
     res.render('snippets/index', { viewData })
