@@ -20,7 +20,7 @@ const snippetsController = {}
 
 const viewData = 'Snippets'
 snippetsController.index = (req, res) => {
-  res.render('home/index', { viewData })
+  res.render('snippets/index', { viewData })
 }
 
 module.exports = snippetsController
