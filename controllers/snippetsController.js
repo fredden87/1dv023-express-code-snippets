@@ -9,6 +9,7 @@
 
 // const moment = require('moment')
 
+const Snippet = require('../models/snippet')
 const snippetsController = {}
 
 /**
@@ -30,9 +31,8 @@ snippetsController.index = (req, res) => {
  * @param {object} res - Express response object.
  */
 
-snippetsController.new = (req, res) => {
-  const viewData = 'Snippets'
-  res.render('snippets/new', { viewData })
+snippetsController.new = async (req, res) => {
+  res.render('snippets/new', { })
 }
 
 /**
@@ -42,8 +42,25 @@ snippetsController.new = (req, res) => {
  * @param {object} res - Express response object.
  */
 
-snippetsController.create = (req, res) => {
-  console.log(req.body)
+snippetsController.create = async (req, res) => {
+  if (req.body.message) {
+    try {
+      const snippet = new Snippet({
+        username: 'test',
+        snippet: req.body.message
+      })
+      await snippet.save()
+      req.session.flash = { type: 'success', text: 'Snippet successfully saved.' }
+      res.redirect('.')
+    } catch (error) {
+      console.log(error)
+      req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
+      res.redirect('.')
+    }
+  } else {
+    req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
+    res.redirect('.')
+  }
 }
 
 module.exports = snippetsController
