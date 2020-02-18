@@ -8,7 +8,7 @@
 'use strict'
 
 // const moment = require('moment')
-
+const User = require('../models/User')
 const registerController = {}
 
 /**
@@ -29,8 +29,21 @@ registerController.index = (req, res) => {
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
-registerController.newUser = (req, res) => {
-  console.log(req.body)
+registerController.newUser = async (req, res) => {
+  if (req.body.password1 === req.body.password2) {
+    try {
+      const user = new User({
+        username: req.body.username,
+        password: req.body.password1
+      })
+      await user.save()
+      console.log('User created!')
+    } catch (error) {
+      console.log(error)
+    }
+  } else {
+    console.log('Password must match!')
+  }
 }
 
 module.exports = registerController
