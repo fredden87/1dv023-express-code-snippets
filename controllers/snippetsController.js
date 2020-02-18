@@ -30,6 +30,7 @@ snippetsController.index = async (req, res) => {
           updatedAt: moment(snippet.updatedAt).format('YY-MM-DD HH:mm')
         }))
     }
+    viewData.snippets.reverse()
     res.render('snippets/index', { viewData })
   } catch (error) {
     console.log(error)
@@ -55,11 +56,11 @@ snippetsController.new = async (req, res) => {
  */
 
 snippetsController.create = async (req, res) => {
-  if (req.body.message) {
+  if (req.body.snippet) {
     try {
       const snippet = new Snippet({
         username: 'test',
-        snippet: req.body.message
+        snippet: req.body.snippet
       })
       await snippet.save()
       req.session.flash = { type: 'success', text: 'Snippet successfully saved.' }
@@ -96,6 +97,35 @@ snippetsController.edit = async (req, res) => {
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
     res.redirect('..')
+  }
+}
+
+/**
+ * Updates a specific code snippet.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+
+snippetsController.update = async (req, res) => {
+  if (req.body.snippet.trim().length) {
+    try {
+      const result = await Snippet.updateOne({ _id: req.params.id }, {
+        snippet: req.body.snippet
+      })
+      if (result.nModified === 1) {
+        req.session.flash = { type: 'success', text: 'The code snippet was updated successfully.' }
+      } else {
+        req.session.flash = { type: 'danger', text: 'Unable to update code snippet.' }
+      }
+      res.redirect('..')
+    } catch (error) {
+      req.session.flash = { type: 'danger', text: error.message }
+      res.redirect('./edit')
+    }
+  } else {
+    req.session.flash = { type: 'danger', text: 'Code snippet must be at least 1 character long' }
+    res.redirect('./edit')
   }
 }
 
