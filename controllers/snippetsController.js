@@ -63,7 +63,7 @@ snippetsController.create = async (req, res) => {
         snippet: req.body.snippet
       })
       await snippet.save()
-      req.session.flash = { type: 'success', text: 'Snippet successfully saved.' }
+      req.session.flash = { type: 'success', text: 'Code snippet successfully saved.' }
       res.redirect('.')
     } catch (error) {
       console.log(error)
@@ -124,8 +124,45 @@ snippetsController.update = async (req, res) => {
       res.redirect('./edit')
     }
   } else {
-    req.session.flash = { type: 'danger', text: 'Code snippet must be at least 1 character long' }
+    req.session.flash = { type: 'danger', text: 'Code snippet must be at least 1 character long.' }
     res.redirect('./edit')
+  }
+}
+
+/**
+ * Returns a HTML form for removing a code snippet.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+snippetsController.remove = async (req, res) => {
+  try {
+    const snippet = await Snippet.findOne({ _id: req.params.id })
+    const viewData = {
+      id: snippet._id,
+      snippet: snippet.snippet
+    }
+    res.render('snippets/remove', { viewData })
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('..')
+  }
+}
+
+/**
+ * Deletes a specific code snippet.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+snippetsController.delete = async (req, res) => {
+  try {
+    await Snippet.deleteOne({ _id: req.params.id })
+    req.session.flash = { type: 'success', text: 'The code snippet was deleted successfully.' }
+    res.redirect('..')
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('./remove')
   }
 }
 
