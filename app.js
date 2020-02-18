@@ -9,6 +9,7 @@
 
 require('dotenv').config()
 
+const createError = require('http-errors')
 const express = require('express')
 const hbs = require('express-hbs')
 const session = require('express-session')
@@ -61,21 +62,21 @@ app.use('/', require('./routes/homeRouter'))
 app.use('/snippets', require('./routes/snippetsRouter'))
 app.use('/login', require('./routes/loginRouter'))
 app.use('/register', require('./routes/registerRouter'))
+app.use('*', (req, res, next) => next(createError(404)))
 
 // Error handler.
 app.use((err, req, res, next) => {
   // 404 Not Found.
-  if (err.status === 404) {
+  if (err.statusCode === 404) {
     return res.status(404).sendFile(join(__dirname, 'views', 'errors', '404.html'))
   }
-
   // 500 Internal Server Error (in production, all other errors send this response).
   if (req.app.get('env') !== 'development') {
     return res.status(500).sendFile(join(__dirname, 'views', 'errors', '500.html'))
   }
 
   // Render the error page.
-  res.status(err.status || 500).render('errors/error', { error: err })
+  res.status(err.statusCode || 500).render('errors/error', { err })
 })
 
 // listen to provided port

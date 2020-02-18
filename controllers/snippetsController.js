@@ -57,21 +57,21 @@ snippetsController.new = async (req, res) => {
  */
 
 snippetsController.create = async (req, res) => {
-  if (req.body.snippet) {
+  if (req.body.snippet.trim().length) {
     try {
       const snippet = new Snippet({
         username: req.session.userName,
         snippet: req.body.snippet
       })
       await snippet.save()
-      req.session.flash = { type: 'success', text: 'Code snippet successfully saved.' }
+      req.session.flash = { type: 'success', text: 'Success: Code snippet successfully saved.' }
       res.redirect('.')
     } catch (error) {
       req.session.flash = { type: 'danger', text: error.message }
       res.redirect('.')
     }
   } else {
-    req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
+    req.session.flash = { type: 'danger', text: 'Error: Code snippet must be at least 1 character long.' }
     res.redirect('.')
   }
 }
@@ -114,9 +114,9 @@ snippetsController.update = async (req, res) => {
         snippet: req.body.snippet
       })
       if (result.nModified === 1) {
-        req.session.flash = { type: 'success', text: 'The code snippet was updated successfully.' }
+        req.session.flash = { type: 'success', text: 'Success: The code snippet was updated successfully.' }
       } else {
-        req.session.flash = { type: 'danger', text: 'Unable to update code snippet.' }
+        req.session.flash = { type: 'danger', text: 'Error: Unable to update code snippet.' }
       }
       res.redirect('..')
     } catch (error) {
@@ -124,7 +124,7 @@ snippetsController.update = async (req, res) => {
       res.redirect('./edit')
     }
   } else {
-    req.session.flash = { type: 'danger', text: 'Code snippet must be at least 1 character long.' }
+    req.session.flash = { type: 'danger', text: 'Error: Code snippet must be at least 1 character long.' }
     res.redirect('./edit')
   }
 }
@@ -159,7 +159,7 @@ snippetsController.remove = async (req, res) => {
 snippetsController.delete = async (req, res) => {
   try {
     await Snippet.deleteOne({ _id: req.params.id })
-    req.session.flash = { type: 'success', text: 'The code snippet was successfully deleted.' }
+    req.session.flash = { type: 'success', text: 'Success: The code snippet was successfully removed.' }
     res.redirect('..')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
@@ -185,7 +185,7 @@ snippetsController.authorize = async (req, res, next) => {
     return user.username
   }
   if (!req.session.userName || (req.session.userName !== await userName())) {
-    const error = new Error('Forbidden')
+    const error = new Error('Status code 403: Forbidden')
     error.statusCode = 403
     return next(error)
   }
