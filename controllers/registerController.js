@@ -24,12 +24,12 @@ registerController.index = (req, res) => {
 }
 
 /**
- * Handels post made to /newuser to register a new user.
+ * Handels post made to /create to register a new user.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
-registerController.newUser = async (req, res) => {
+registerController.create = async (req, res) => {
   if (req.body.username.length > 0 && req.body.password1 === req.body.password2) {
     try {
       const user = new User({
@@ -43,8 +43,7 @@ registerController.newUser = async (req, res) => {
       req.session.flash = { type: 'danger', text: 'Something went wrong. Please try again!' }
       res.redirect('.')
     }
-  }
-  if (req.body.username.length > 0 && req.body.password1 !== req.body.password2) {
+  } else if (req.body.username.length > 0 && req.body.password1 !== req.body.password2) {
     req.session.flash = { type: 'danger', text: "Password don't match. Please try again!" }
     res.redirect('.')
   } else {
