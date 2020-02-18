@@ -19,9 +19,22 @@ const snippetsController = {}
  * @param {object} res - Express response object.
  */
 
-snippetsController.index = (req, res) => {
-  const viewData = 'Snippets'
-  res.render('snippets/index', { viewData })
+snippetsController.index = async (req, res) => {
+  try {
+    const viewData = {
+      snippets: (await Snippet.find({}))
+        .map(snippet => ({
+          id: snippet._id,
+          user: snippet.username,
+          snippet: snippet.snippet,
+          createdAt: snippet.createdAt,
+          updatedAt: snippet.updatedAt
+        }))
+    }
+    res.render('snippets/index', { viewData })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 /**
