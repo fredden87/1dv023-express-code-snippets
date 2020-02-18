@@ -12,7 +12,7 @@ require('dotenv').config()
 const express = require('express')
 const hbs = require('express-hbs')
 const session = require('express-session')
-const path = require('path')
+const { join } = require('path')
 const logger = require('morgan')
 const mongoose = require('./configs/mongoose')
 
@@ -26,16 +26,16 @@ mongoose.connect().catch(error => {
 
 // view engine setup
 app.engine('hbs', hbs.express4({
-  defaultLayout: path.join(__dirname, 'views', 'layouts', 'default'),
-  partialsDir: path.join(__dirname, 'views', 'partials')
+  defaultLayout: join(__dirname, 'views', 'layouts', 'default'),
+  partialsDir: join(__dirname, 'views', 'partials')
 }))
 app.set('view engine', 'hbs')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', join(__dirname, 'views'))
 
 // additional middleware
 app.use(logger('dev'))
 app.use(express.urlencoded({ extended: false }))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(join(__dirname, 'public')))
 
 // Config object for express-session
 const sessionOptions = {

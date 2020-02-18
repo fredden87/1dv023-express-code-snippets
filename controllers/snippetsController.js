@@ -33,7 +33,8 @@ snippetsController.index = async (req, res) => {
     viewData.snippets.reverse()
     res.render('snippets/index', { viewData })
   } catch (error) {
-    console.log(error)
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('..')
   }
 }
 
@@ -66,7 +67,7 @@ snippetsController.create = async (req, res) => {
       req.session.flash = { type: 'success', text: 'Code snippet successfully saved.' }
       res.redirect('.')
     } catch (error) {
-      req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
+      req.session.flash = { type: 'danger', text: error.message }
       res.redirect('.')
     }
   } else {
@@ -158,7 +159,7 @@ snippetsController.remove = async (req, res) => {
 snippetsController.delete = async (req, res) => {
   try {
     await Snippet.deleteOne({ _id: req.params.id })
-    req.session.flash = { type: 'success', text: 'The code snippet was deleted successfully.' }
+    req.session.flash = { type: 'success', text: 'The code snippet was successfully deleted.' }
     res.redirect('..')
   } catch (error) {
     req.session.flash = { type: 'danger', text: error.message }
@@ -176,6 +177,9 @@ snippetsController.delete = async (req, res) => {
  */
 
 snippetsController.authorize = async (req, res, next) => {
+  if (!req.params.id && req.session.userName) {
+    return next()
+  }
   const userName = async function () {
     const user = await Snippet.findOne({ _id: req.params.id })
     return user.username
