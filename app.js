@@ -32,11 +32,6 @@ app.engine('hbs', hbs.express4({
 app.set('view engine', 'hbs')
 app.set('views', join(__dirname, 'views'))
 
-// additional middleware
-app.use(logger('dev'))
-app.use(express.urlencoded({ extended: false }))
-app.use(express.static(join(__dirname, 'public')))
-
 // Config object for express-session
 const sessionOptions = {
   name: process.env.SESSION_NAME,
@@ -47,10 +42,11 @@ const sessionOptions = {
     maxAge: 1000 * 60 * 60 * 24
   }
 }
-
-// Use express-session as middleware
+// additional middleware
+app.use(logger('dev'))
+app.use(express.urlencoded({ extended: false }))
+app.use(express.static(join(__dirname, 'public')))
 app.use(session(sessionOptions))
-// middleware to be executed before the routes
 app.use((req, res, next) => {
   // flash messages - survives only a round trip
   if (req.session.flash) {
@@ -66,11 +62,21 @@ app.use('/snippets', require('./routes/snippetsRouter'))
 app.use('/login', require('./routes/loginRouter'))
 app.use('/register', require('./routes/registerRouter'))
 
-// error handler
+// Error handler.
 app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.send(err.message || 'Internal Server Error')
+  // 404 Not Found.
+  if (err.status === 404) {
+    return res.status(404).sendFile(join(__dirname, 'views', 'errors', '404.html'))
+  }
+
+  // 500 Internal Server Error (in production, all other errors send this response).
+  if (req.app.get('env') !== 'development') {
+    return res.status(500).sendFile(join(__dirname, 'views', 'errors', '500.html'))
+  }
+
+  // Render the error page.
+  res.status(err.status || 500).render('errors/error', { error: err })
 })
 
 // listen to provided port
-app.listen(8000, () => console.log('Server running at http://localhost:8000'))
+app.listen(process.env.PORT, () => console.log(`Server running at http://localhost:${process.env.PORT}`))
