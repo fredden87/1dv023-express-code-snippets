@@ -22,6 +22,13 @@ html, body {
   margin: 5px;
 }
 
+.snippet-input {
+  margin: 30px auto 0;
+  padding: 50px 15px 10px 15px;
+  background-color: rgb(50, 50, 50);
+  width: 40%;
+}
+
 .small-bottom-margin {
   margin: 0;
   margin-bottom: 10px;
@@ -93,5 +100,21 @@ footer p {
 
 footer a {
     color: rgb(172, 172, 255);
+}
+
+.button {
+  background-color: black;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: rgb(51, 51, 51);
 }
 

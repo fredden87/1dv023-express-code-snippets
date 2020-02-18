@@ -12,8 +12,9 @@ const router = express.Router()
 
 const controller = require('../controllers/snippetsController')
 
-// GET
+// Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
 router.get('/new', controller.new)
+router.post('/create', controller.create)
 
 module.exports = router
