@@ -45,10 +45,6 @@ snippetsController.index = async (req, res) => {
  */
 
 snippetsController.new = async (req, res) => {
-  if (!req.session.userName) {
-    req.session.flash = { type: 'danger', text: '403 (Forbidden)' }
-    return res.redirect('.')
-  }
   res.render('snippets/new', { })
 }
 
@@ -60,13 +56,10 @@ snippetsController.new = async (req, res) => {
  */
 
 snippetsController.create = async (req, res) => {
-  if (!req.session.userName) {
-    return res.sendStatus(403)
-  }
   if (req.body.snippet) {
     try {
       const snippet = new Snippet({
-        username: req.session.userName,
+        username: 'Ola',
         snippet: req.body.snippet
       })
       await snippet.save()
@@ -92,10 +85,6 @@ snippetsController.create = async (req, res) => {
 snippetsController.edit = async (req, res) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
-    if (snippet.username !== req.session.userName) {
-      req.session.flash = { type: 'danger', text: '403 (Forbidden)' }
-      return res.redirect('..')
-    }
     const viewData = {
       id: snippet._id,
       user: snippet.username,
@@ -118,9 +107,6 @@ snippetsController.edit = async (req, res) => {
  */
 
 snippetsController.update = async (req, res) => {
-  if (!req.session.userName) {
-    return res.sendStatus(403)
-  }
   if (req.body.snippet.trim().length) {
     try {
       const result = await Snippet.updateOne({ _id: req.params.id }, {
@@ -168,6 +154,7 @@ snippetsController.remove = async (req, res) => {
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  */
+
 snippetsController.delete = async (req, res) => {
   try {
     await Snippet.deleteOne({ _id: req.params.id })
@@ -177,6 +164,24 @@ snippetsController.delete = async (req, res) => {
     req.session.flash = { type: 'danger', text: error.message }
     res.redirect('./remove')
   }
+}
+
+/**
+ * Handles the authorization for protected resources.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
+ * @returns Authorization error 403.
+ */
+
+snippetsController.authorize = (req, res, next) => {
+  if (!req.session.userName) {
+    const error = new Error('Forbidden')
+    error.statusCode = 403
+    return next(error)
+  }
+  next()
 }
 
 module.exports = snippetsController

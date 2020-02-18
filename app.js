@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 })
 
 app.use((req, res, next) => {
-  console.log(req.session.userName)
+  // console.log(req.session.userName)
   next()
 })
 
