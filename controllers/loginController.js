@@ -23,7 +23,7 @@ loginController.index = (req, res) => {
 }
 
 /**
- * Authenticate a user.
+ * Authenticates a user.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -32,7 +32,9 @@ loginController.index = (req, res) => {
 loginController.auth = async (req, res) => {
   try {
     const user = await User.authenticate(req.body.username, req.body.password)
-    req.session.userId = user._id
+    req.session.regenerate(() => {
+      req.session.userName = user.username
+    })
     req.session.flash = { type: 'success', text: 'Successfully logged in.' }
     res.redirect('..')
   } catch (error) {

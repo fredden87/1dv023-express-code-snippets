@@ -25,6 +25,16 @@ const userSchema = new mongoose.Schema({
 }, {
   timestamps: true
 })
+/**
+ * Authenticate username and password against database.
+ *
+ * @param {string} username - Username string.
+ * @param {string} password - Password string.
+ *
+ * Returns authenticated Userobject.
+ *
+ * @returns {object} From database.
+ */
 
 userSchema.statics.authenticate = async function (username, password) {
   const user = await this.findOne({ username })
