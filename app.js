@@ -61,6 +61,11 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use((req, res, next) => {
+  console.log(req.session.userName)
+  next()
+})
+
 const redirectLogin = (req, res, next) => {
   if (!req.session.userId) {
     res.redirect('/login')

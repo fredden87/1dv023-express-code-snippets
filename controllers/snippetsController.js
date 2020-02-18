@@ -45,6 +45,10 @@ snippetsController.index = async (req, res) => {
  */
 
 snippetsController.new = async (req, res) => {
+  if (!req.session.userName) {
+    req.session.flash = { type: 'danger', text: '403 (Forbidden)' }
+    return res.redirect('.')
+  }
   res.render('snippets/new', { })
 }
 
@@ -56,17 +60,19 @@ snippetsController.new = async (req, res) => {
  */
 
 snippetsController.create = async (req, res) => {
+  if (!req.session.userName) {
+    return res.sendStatus(403)
+  }
   if (req.body.snippet) {
     try {
       const snippet = new Snippet({
-        username: 'test',
+        username: req.session.userName,
         snippet: req.body.snippet
       })
       await snippet.save()
       req.session.flash = { type: 'success', text: 'Code snippet successfully saved.' }
       res.redirect('.')
     } catch (error) {
-      console.log(error)
       req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
       res.redirect('.')
     }
@@ -86,6 +92,10 @@ snippetsController.create = async (req, res) => {
 snippetsController.edit = async (req, res) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
+    if (snippet.username !== req.session.userName) {
+      req.session.flash = { type: 'danger', text: '403 (Forbidden)' }
+      return res.redirect('..')
+    }
     const viewData = {
       id: snippet._id,
       user: snippet.username,
@@ -108,6 +118,9 @@ snippetsController.edit = async (req, res) => {
  */
 
 snippetsController.update = async (req, res) => {
+  if (!req.session.userName) {
+    return res.sendStatus(403)
+  }
   if (req.body.snippet.trim().length) {
     try {
       const result = await Snippet.updateOne({ _id: req.params.id }, {
