@@ -50,7 +50,6 @@ const sessionOptions = {
 
 // Use express-session as middleware
 app.use(session(sessionOptions))
-
 // middleware to be executed before the routes
 app.use((req, res, next) => {
   // flash messages - survives only a round trip
@@ -60,19 +59,6 @@ app.use((req, res, next) => {
   }
   next()
 })
-
-app.use((req, res, next) => {
-  // console.log(req.session.userName)
-  next()
-})
-
-const redirectLogin = (req, res, next) => {
-  if (!req.session.userId) {
-    res.redirect('/login')
-  } else {
-    next()
-  }
-}
 
 // routes
 app.use('/', require('./routes/homeRouter'))

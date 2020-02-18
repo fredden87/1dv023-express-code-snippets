@@ -59,7 +59,7 @@ snippetsController.create = async (req, res) => {
   if (req.body.snippet) {
     try {
       const snippet = new Snippet({
-        username: 'Ola',
+        username: req.session.userName,
         snippet: req.body.snippet
       })
       await snippet.save()
@@ -175,8 +175,12 @@ snippetsController.delete = async (req, res) => {
  * @returns Authorization error 403.
  */
 
-snippetsController.authorize = (req, res, next) => {
-  if (!req.session.userName) {
+snippetsController.authorize = async (req, res, next) => {
+  const userName = async function () {
+    const user = await Snippet.findOne({ _id: req.params.id })
+    return user.username
+  }
+  if (!req.session.userName || (req.session.userName !== await userName())) {
     const error = new Error('Forbidden')
     error.statusCode = 403
     return next(error)

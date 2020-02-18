@@ -11,7 +11,7 @@ const User = require('../models/User')
 const registerController = {}
 
 /**
- * Renders the register page.
+ * Returns a HTML form for creating a new user.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -22,7 +22,7 @@ registerController.index = (req, res) => {
 }
 
 /**
- * Handels post made to / and registers a new user.
+ * Registers a new user.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
