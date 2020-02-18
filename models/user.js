@@ -26,6 +26,14 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 })
 
+userSchema.statics.authenticate = async function (username, password) {
+  const user = await this.findOne({ username })
+  if (!user || !(password === user.password)) {
+    throw new Error('Invalid login attempt.')
+  }
+  return user
+}
+
 // Create a model using the schema.
 const User = mongoose.model('User', userSchema)
 

@@ -62,6 +62,14 @@ app.use((req, res, next) => {
   next()
 })
 
+const redirectLogin = (req, res, next) => {
+  if (!req.session.userId) {
+    res.redirect('/login')
+  } else {
+    next()
+  }
+}
+
 // routes
 app.use('/', require('./routes/homeRouter'))
 app.use('/snippets', require('./routes/snippetsRouter'))
