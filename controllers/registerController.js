@@ -36,17 +36,17 @@ registerController.create = async (req, res) => {
         password: req.body.password1
       })
       await user.save()
-      req.session.flash = { type: 'success', text: 'New account created successfully. Please login!' }
+      req.session.flash = { type: 'success', text: 'Account created successfully, please login.' }
       res.redirect('../login')
     } catch (error) {
-      req.session.flash = { type: 'danger', text: 'Something went wrong. Please try again!' }
+      req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
       res.redirect('.')
     }
-  } else if (req.body.username.length > 0 && req.body.password1 !== req.body.password2) {
-    req.session.flash = { type: 'danger', text: "Password don't match. Please try again!" }
+  } else if (req.body.password1 !== req.body.password2) {
+    req.session.flash = { type: 'danger', text: "Passwords don't match." }
     res.redirect('.')
   } else {
-    req.session.flash = { type: 'danger', text: 'Something went wrong. Please try again!' }
+    req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
     res.redirect('.')
   }
 }
