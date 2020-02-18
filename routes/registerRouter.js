@@ -14,5 +14,5 @@ const controller = require('../controllers/registerController')
 
 // Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
-router.post('/create', controller.create)
+router.post('/', controller.create)
 module.exports = router

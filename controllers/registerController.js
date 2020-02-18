@@ -18,13 +18,12 @@ const registerController = {}
  * @param {object} res - Express response object.
  */
 
-const viewData = 'Register'
 registerController.index = (req, res) => {
-  res.render('register/index', { viewData })
+  res.render('register/index')
 }
 
 /**
- * Handels post made to /create to register a new user.
+ * Handels post made to / and registers a new user.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.

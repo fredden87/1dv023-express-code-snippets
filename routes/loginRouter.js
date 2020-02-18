@@ -12,7 +12,8 @@ const router = express.Router()
 
 const controller = require('../controllers/loginController')
 
-// GET
+// Map HTTP verbs and route paths to controller actions.
 router.get('/', controller.index)
+router.post('/', controller.auth)
 
 module.exports = router

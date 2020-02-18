@@ -8,7 +8,7 @@
 'use strict'
 
 // const moment = require('moment')
-
+const User = require('../models/User')
 const loginController = {}
 
 /**
@@ -18,9 +18,13 @@ const loginController = {}
  * @param {object} res - Express response object.
  */
 
-const viewData = 'Login'
 loginController.index = (req, res) => {
-  res.render('home/index', { viewData })
+  res.render('login/index')
+}
+
+loginController.auth = async (req, res) => {
+  if (req.body.username.length > 0 && req.body.password.length > 2) {
+  }
 }
 
 module.exports = loginController
