@@ -16,5 +16,6 @@ const controller = require('../controllers/snippetsController')
 router.get('/', controller.index)
 router.get('/new', controller.new)
 router.post('/create', controller.create)
+router.get('/:id/edit', controller.edit)
 
 module.exports = router

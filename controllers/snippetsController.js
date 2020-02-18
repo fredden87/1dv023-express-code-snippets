@@ -12,7 +12,7 @@ const Snippet = require('../models/snippet')
 const snippetsController = {}
 
 /**
- * Renders the snippets index page.
+ * Entry page for snippets route, returns all code snippets.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -37,7 +37,7 @@ snippetsController.index = async (req, res) => {
 }
 
 /**
- * Renders the snippets index page.
+ * Returns a HTML form for creating a new code snippet.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -48,7 +48,7 @@ snippetsController.new = async (req, res) => {
 }
 
 /**
- * Renders the snippets index page.
+ * Creates a new code snippet.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -72,6 +72,30 @@ snippetsController.create = async (req, res) => {
   } else {
     req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
     res.redirect('.')
+  }
+}
+
+/**
+ * Renders the snippets index page.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+
+snippetsController.edit = async (req, res) => {
+  try {
+    const snippet = await Snippet.findOne({ _id: req.params.id })
+    const viewData = {
+      id: snippet._id,
+      user: snippet.username,
+      snippet: snippet.snippet,
+      createdAt: moment(snippet.createdAt).format('YY-MM-DD HH:mm'),
+      updatedAt: moment(snippet.updatedAt).format('YY-MM-DD HH:mm')
+    }
+    res.render('snippets/edit', { viewData })
+  } catch (error) {
+    req.session.flash = { type: 'danger', text: error.message }
+    res.redirect('..')
   }
 }
 

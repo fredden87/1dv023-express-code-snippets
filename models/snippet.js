@@ -17,7 +17,8 @@ const snippetSchema = new mongoose.Schema({
   },
   snippet: {
     type: String,
-    required: true
+    required: true,
+    trim: true
   }
 }, {
   timestamps: true
