@@ -14,5 +14,6 @@ const controller = require('../controllers/snippetsController')
 
 // GET
 router.get('/', controller.index)
+router.get('/new', controller.new)
 
 module.exports = router

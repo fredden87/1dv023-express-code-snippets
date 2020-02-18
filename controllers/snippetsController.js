@@ -12,7 +12,7 @@
 const snippetsController = {}
 
 /**
- * Renders the snippets page.
+ * Renders the snippets index page.
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
@@ -20,7 +20,20 @@ const snippetsController = {}
 
 const viewData = 'Snippets'
 snippetsController.index = (req, res) => {
+  const viewData = 'Snippets'
   res.render('snippets/index', { viewData })
+}
+
+/**
+ * Renders the snippets index page.
+ *
+ * @param {object} req - Express request object.
+ * @param {object} res - Express response object.
+ */
+
+snippetsController.new = (req, res) => {
+  const viewData = 'Snippets'
+  res.render('snippets/new', { viewData })
 }
 
 module.exports = snippetsController
