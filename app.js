@@ -39,8 +39,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Config object for express-session
 const sessionOptions = {
-  name: process.env.session_name,
-  secret: process.env.session_secret,
+  name: process.env.SESSION_NAME,
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
