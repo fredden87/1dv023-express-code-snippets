@@ -34,6 +34,16 @@ html, body {
   margin-bottom: 10px;
 }
 
+.input-bg {
+  margin: 20px auto 0;
+  border-radius: 5px;
+  background-color: #333;
+  padding: 20px;
+  color: white;
+  width: 50%;
+  opacity: 0.9;
+}
+
 .alert {
   margin: 10px auto 0;
   padding: 20px;
@@ -114,7 +124,13 @@ footer a {
   cursor: pointer;
 }
 
-.button:hover {
-  background-color: rgb(51, 51, 51);
+input, select {
+  width: 40%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid black;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
