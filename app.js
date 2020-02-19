@@ -56,9 +56,9 @@ app.use((req, res, next) => {
   }
   next()
 })
+// middleware to send username to navigation
 app.use((req, res, next) => {
   app.locals.expreq = req.session.userName
-  console.log(app.locals.expreq)
   next()
 })
 
