@@ -29,7 +29,6 @@ loginController.index = (req, res) => {
  */
 
 loginController.auth = async (req, res) => {
-  console.log(req.body.username)
   try {
     const user = await User.authenticate(req.body.username, req.body.password)
     req.session.regenerate(() => {

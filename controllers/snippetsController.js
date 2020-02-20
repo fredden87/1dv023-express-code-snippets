@@ -16,9 +16,10 @@ const snippetsController = {}
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
  */
 
-snippetsController.index = async (req, res) => {
+snippetsController.index = async (req, res, next) => {
   try {
     const viewData = {
       snippets: (await Snippet.find({}))
@@ -33,8 +34,8 @@ snippetsController.index = async (req, res) => {
     viewData.snippets.reverse()
     res.render('snippets/index', { viewData })
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('..')
+    error.statusCode = 500
+    return next(error)
   }
 }
 
@@ -54,9 +55,10 @@ snippetsController.new = async (req, res) => {
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
  */
 
-snippetsController.create = async (req, res) => {
+snippetsController.create = async (req, res, next) => {
   if (req.body.snippet.trim().length) {
     try {
       const snippet = new Snippet({
@@ -67,8 +69,8 @@ snippetsController.create = async (req, res) => {
       req.session.flash = { type: 'success', text: 'Success: Code snippet successfully saved.' }
       res.redirect('.')
     } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('.')
+      error.statusCode = 500
+      return next(error)
     }
   } else {
     req.session.flash = { type: 'danger', text: 'Error: Code snippet must be at least 1 character long.' }
@@ -81,9 +83,10 @@ snippetsController.create = async (req, res) => {
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
  */
 
-snippetsController.edit = async (req, res) => {
+snippetsController.edit = async (req, res, next) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
     const viewData = {
@@ -95,8 +98,8 @@ snippetsController.edit = async (req, res) => {
     }
     res.render('snippets/edit', { viewData })
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('..')
+    error.statusCode = 500
+    return next(error)
   }
 }
 
@@ -105,9 +108,10 @@ snippetsController.edit = async (req, res) => {
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
  */
 
-snippetsController.update = async (req, res) => {
+snippetsController.update = async (req, res, next) => {
   if (req.body.snippet.trim().length) {
     try {
       const result = await Snippet.updateOne({ _id: req.params.id }, {
@@ -120,8 +124,8 @@ snippetsController.update = async (req, res) => {
       }
       res.redirect('..')
     } catch (error) {
-      req.session.flash = { type: 'danger', text: error.message }
-      res.redirect('./edit')
+      error.statusCode = 500
+      return next(error)
     }
   } else {
     req.session.flash = { type: 'danger', text: 'Error: Code snippet must be at least 1 character long.' }
@@ -134,8 +138,9 @@ snippetsController.update = async (req, res) => {
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
  */
-snippetsController.remove = async (req, res) => {
+snippetsController.remove = async (req, res, next) => {
   try {
     const snippet = await Snippet.findOne({ _id: req.params.id })
     const viewData = {
@@ -144,8 +149,8 @@ snippetsController.remove = async (req, res) => {
     }
     res.render('snippets/remove', { viewData })
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('..')
+    error.statusCode = 500
+    return next(error)
   }
 }
 
@@ -154,16 +159,17 @@ snippetsController.remove = async (req, res) => {
  *
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
+ * @param {object} next - Express forward object.
  */
 
-snippetsController.delete = async (req, res) => {
+snippetsController.delete = async (req, res, next) => {
   try {
     await Snippet.deleteOne({ _id: req.params.id })
     req.session.flash = { type: 'success', text: 'Success: The code snippet was successfully removed.' }
     res.redirect('..')
   } catch (error) {
-    req.session.flash = { type: 'danger', text: error.message }
-    res.redirect('./remove')
+    error.statusCode = 500
+    return next(error)
   }
 }
 
@@ -173,7 +179,6 @@ snippetsController.delete = async (req, res) => {
  * @param {object} req - Express request object.
  * @param {object} res - Express response object.
  * @param {object} next - Express forward object.
- * @returns Authorization error 403.
  */
 
 snippetsController.authorize = async (req, res, next) => {
