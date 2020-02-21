@@ -7,7 +7,7 @@
 
 'use strict'
 
-const User = require('../models/User')
+const User = require('../models/user')
 const loginController = {}
 
 /**
