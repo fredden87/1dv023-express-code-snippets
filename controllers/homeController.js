@@ -17,8 +17,7 @@ const homeController = {}
  */
 
 homeController.index = (req, res) => {
-  const viewData = 'Hello'
-  res.render('home/index', { viewData })
+  res.render('home/index')
 }
 
 module.exports = homeController
