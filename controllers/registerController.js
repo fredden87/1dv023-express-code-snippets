@@ -29,7 +29,7 @@ registerController.index = (req, res) => {
  * @param {object} next - Express forward object.
  */
 registerController.create = async (req, res, next) => {
-  if (req.body.username.length > 0 && req.body.password1 === req.body.password2) {
+  if (req.body.username.length > 0 && req.body.password1.length > 5 && req.body.password1 === req.body.password2) {
     try {
       const user = new User({
         username: req.body.username,
@@ -44,6 +44,9 @@ registerController.create = async (req, res, next) => {
     }
   } else if (req.body.password1 !== req.body.password2) {
     req.session.flash = { type: 'danger', text: "Passwords don't match." }
+    res.redirect('.')
+  } else if (req.body.password1.length < 6) {
+    req.session.flash = { type: 'danger', text: 'Password must be at least 6 characters.' }
     res.redirect('.')
   } else {
     req.session.flash = { type: 'danger', text: 'Something went wrong, please try again.' }
