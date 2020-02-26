@@ -40,7 +40,9 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24
+    httpOnly: true, // dont allow client scripts to messing with the cookie
+    maxAge: 24 * 60 * 60 * 1000, // cookie valid for 1 day
+    sameSite: 'lax' // protect against POST csrf-attacks
   }
 }
 // additional middleware
