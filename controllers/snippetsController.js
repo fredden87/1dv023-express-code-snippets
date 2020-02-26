@@ -145,7 +145,9 @@ snippetsController.remove = async (req, res, next) => {
     const snippet = await Snippet.findOne({ _id: req.params.id })
     const viewData = {
       id: snippet._id,
-      snippet: snippet.snippet
+      snippet: snippet.snippet,
+      createdAt: moment(snippet.createdAt).format('YY-MM-DD HH:mm'),
+      updatedAt: moment(snippet.updatedAt).format('YY-MM-DD HH:mm')
     }
     res.render('snippets/remove', { viewData })
   } catch (error) {
