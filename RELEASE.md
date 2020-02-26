@@ -44,4 +44,4 @@ Jag har skapat en dynamisk navigationsmeny som har login och register om man int
 
 ### Feedback
 
-_Feedback to the course management about the assignment._
+Denna uppgiften är MYCKET givande och jag är glad att jag fick möjlighet att göra den. Den lär ut många och viktiga koncept inom server-rendering med javascript, MVC, sessioner, lösenordssäkerhet och persistent data. Denna uppgiften är MYCKET lärorik och matrialet man får till som föreläsningar och demon gör att uppgiften inte känns överväldigande då man får en hel del kött på benen innan man startar med den.
